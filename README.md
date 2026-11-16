@@ -1,6 +1,6 @@
 # BorrowApp Admin Web
 
-Panel administrativo en React + Vite + Tailwind CSS conectado a `https://borrowapp.onrender.com/api/v1`.
+Panel administrativo en React + Vite + Tailwind CSS conectado a la API del proyecto.
 
 ## Instalación y ejecución local
 
@@ -15,7 +15,7 @@ Panel administrativo en React + Vite + Tailwind CSS conectado a `https://borrowa
 
 ## Configuración y alcance
 
-`.env` admite `VITE_API_URL=https://borrowapp.onrender.com` o la URL con
+`.env` admite `VITE_API_URL=https://api.example.com` o la URL con
 `/api/v1`. Reinicia Vite después de cambiarla. El cliente espera hasta 70 segundos
 para permitir el arranque en frío de Render.
 
