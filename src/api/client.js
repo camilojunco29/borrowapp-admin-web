@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getSessionToken, getTokenExpiry, expireSession } from "./session.js";
 
 const api = axios.create({
   baseURL: normalizeBaseUrl(import.meta.env?.VITE_API_URL),
@@ -10,6 +11,11 @@ const api = axios.create({
 
 export function normalizeBaseUrl(value = "https://borrowapp.onrender.com") {
   const root = (value || "https://borrowapp.onrender.com").trim().replace(/\/+$/, "");
+  const url = new URL(root);
+  const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
+  if (url.username || url.password || url.search || url.hash || (url.protocol !== "https:" && !(local && url.protocol === "http:"))) {
+    throw new Error("La URL de API debe usar HTTPS (HTTP solo se permite en localhost), sin credenciales ni parámetros.");
+  }
   return root.endsWith("/api/v1") ? root : `${root}/api/v1`;
 }
 
@@ -22,7 +28,13 @@ export function getErrorMessage(error) {
 }
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("borrowapp_admin_token");
+  const token = config.url === "/auth/login" ? null : getSessionToken();
+  const expires = token && getTokenExpiry(token);
+  if (expires && expires <= Date.now()) {
+    expireSession(token);
+    throw new Error("Tu sesión venció. Vuelve a iniciar sesión.");
+  }
+  config.sessionToken = token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -32,9 +44,8 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401 && error.config?.url !== "/auth/login") {
-      localStorage.removeItem("borrowapp_admin_token");
-      window.dispatchEvent(new Event("borrowapp:session-expired"));
+    if (error.response?.status === 401 && error.config?.sessionToken) {
+      expireSession(error.config.sessionToken);
     }
     return Promise.reject(error);
   }

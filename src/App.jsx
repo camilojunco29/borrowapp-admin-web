@@ -137,7 +137,7 @@ function BadgeEstado({ estado }) {
 }
 
 function Dashboard() {
-  const { user, adminMemberships, activeOrg, setActiveOrg, logout } = useAuth();
+  const { user, adminMemberships, activeOrg, setActiveOrg, updateOrganization, logout } = useAuth();
   const [tab, setTab] = useState("resumen");
   const [members, setMembers] = useState([]);
   const [reports, setReports] = useState([]);
@@ -176,13 +176,19 @@ function Dashboard() {
         adminService.getNeeds(activeOrg.id),
         adminService.getLoans(activeOrg.id),
       ]);
-      if (version !== requestVersion.current) return;
+      if (version !== requestVersion.current) return false;
+      if (![m, r, n, l].every(Array.isArray)) throw new Error("La API devolvió un formato de datos inesperado. Reintenta la carga.");
       setMembers(m);
       setReports(r);
       setNeeds(n);
       setLoans(l);
+      return true;
     } catch (error) {
-      if (version === requestVersion.current) setDataError(getErrorMessage(error));
+      if (version === requestVersion.current) {
+        setMembers([]); setReports([]); setNeeds([]); setLoans([]);
+        setDataError(getErrorMessage(error));
+      }
+      return false;
     } finally {
       if (version === requestVersion.current) setLoadingData(false);
     }
@@ -208,8 +214,8 @@ function Dashboard() {
     setSubmittingReport(true);
     try {
       await adminService.resolveReport(reportId, payload);
-      await loadAll();
-      showToast(`Reporte #${reportId} resuelto y sanción aplicada.`);
+      const refreshed = await loadAll();
+      showToast(`Reporte #${reportId} resuelto y sanción aplicada.${refreshed ? "" : " Reintenta la carga para ver los datos actualizados."}`);
     } finally {
       setSubmittingReport(false);
     }
@@ -221,8 +227,8 @@ function Dashboard() {
     setReverting(true);
     try {
       await adminService.revertSanction(activeOrg.id, userId);
-      await loadAll();
-      showToast(`Membresía de ${nombre} restaurada a ACTIVO.`);
+      const refreshed = await loadAll();
+      showToast(`Membresía de ${nombre} restaurada a ACTIVO.${refreshed ? "" : " Reintenta la carga para ver los datos actualizados."}`);
     } catch (error) { showToast(getErrorMessage(error)); }
     finally { setReverting(false); }
   };
@@ -232,7 +238,7 @@ function Dashboard() {
       activeOrg.id,
       nuevoPunto
     );
-    setActiveOrg({ ...activeOrg, ...updatedOrg });
+    updateOrganization({ ...activeOrg, ...updatedOrg });
     showToast("Punto central actualizado correctamente.");
   };
 
@@ -667,6 +673,7 @@ function Dashboard() {
             {tab !== "necesidades" && (
               <button
                 onClick={handleExportCurrentTab}
+                disabled={loadingData || !!dataError}
                 className="inline-flex items-center gap-1.5 rounded-campo border border-laguna-700 bg-white px-3.5 py-2 text-xs font-bold text-laguna-700 transition hover:bg-laguna-50"
               >
                 <Download className="h-3.5 w-3.5" /> CSV

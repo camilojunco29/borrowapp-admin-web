@@ -20,6 +20,7 @@ export function ResolveReportModal({ report, onClose, onConfirm, submitting }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
     setError("");
     if (nota.trim().length < 3) {
       setError("Escribe una nota de resolución de al menos 3 caracteres.");
@@ -59,6 +60,7 @@ export function ResolveReportModal({ report, onClose, onConfirm, submitting }) {
           </div>
           <button
             onClick={onClose}
+            disabled={submitting}
             className="rounded-campo p-1.5 text-tinta2 hover:bg-bruma"
           >
             <X className="h-5 w-5" />
@@ -123,6 +125,7 @@ export function ResolveReportModal({ report, onClose, onConfirm, submitting }) {
             </label>
             <textarea
               rows={3}
+              maxLength={1000}
               value={nota}
               onChange={(e) => setNota(e.target.value)}
               placeholder="Ej: Se verificó retraso de 48 horas en la devolución..."
@@ -140,6 +143,7 @@ export function ResolveReportModal({ report, onClose, onConfirm, submitting }) {
             <button
               type="button"
               onClick={onClose}
+              disabled={submitting}
               className="rounded-tarjeta border border-lineaFuerte px-5 py-2.5 text-sm font-bold text-tinta2 hover:bg-bruma"
             >
               Cancelar
@@ -165,6 +169,7 @@ export function EditCentralPointModal({ org, onClose, onSave }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (saving) return;
     if (punto.trim().length < 2) {
       setError("Ingresa un punto central válido.");
       return;
@@ -192,6 +197,7 @@ export function EditCentralPointModal({ org, onClose, onSave }) {
           </div>
           <button
             onClick={onClose}
+            disabled={saving}
             className="rounded-campo p-1.5 text-tinta2 hover:bg-bruma"
           >
             <X className="h-5 w-5" />
@@ -204,6 +210,7 @@ export function EditCentralPointModal({ org, onClose, onSave }) {
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <input
             type="text"
+            maxLength={200}
             value={punto}
             onChange={(e) => setPunto(e.target.value)}
             className="w-full rounded-campo border border-linea bg-white px-4 py-3 text-sm text-tinta focus:border-laguna-500 focus:outline-none focus:ring-2 focus:ring-laguna-500/20"
@@ -215,6 +222,7 @@ export function EditCentralPointModal({ org, onClose, onSave }) {
             <button
               type="button"
               onClick={onClose}
+              disabled={saving}
               className="rounded-tarjeta border border-lineaFuerte px-4 py-2.5 text-sm font-bold text-tinta2 hover:bg-bruma"
             >
               Cancelar

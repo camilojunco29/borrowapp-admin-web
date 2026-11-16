@@ -8,6 +8,7 @@ borrowapp-netlify.zip
 .netlify/
 netlify.toml
 public/_redirects
+public/_headers
 NETLIFY.local.md
 .vite/
 coverage/
