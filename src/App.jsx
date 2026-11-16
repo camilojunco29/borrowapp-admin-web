@@ -52,7 +52,7 @@ function LoginScreen() {
       <div className="w-full max-w-md rounded-hero bg-white p-8 shadow-2xl">
         <div className="mb-6 text-center">
           <span className="inline-block rounded-full bg-laguna-50 px-3.5 py-1 text-xs font-bold text-laguna-700">
-            Sistema Marea · Administración
+            BorrowApp · Administración
           </span>
           <h1 className="mt-3 text-2xl font-extrabold text-tinta">
             BorrowApp Admin
