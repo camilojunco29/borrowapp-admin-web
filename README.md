@@ -1,4 +1,4 @@
-# BorrowApp Admin Web (Tema Marea)
+# BorrowApp Admin Web
 
 Panel administrativo en React + Vite + Tailwind CSS conectado a `https://borrowapp.onrender.com/api/v1`.
 
