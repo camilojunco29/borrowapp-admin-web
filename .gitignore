@@ -1,0 +1,16 @@
+node_modules
+dist
+.env
+.env.*
+!.env.example
+*.local
+borrowapp-netlify.zip
+.netlify/
+netlify.toml
+public/_redirects
+NETLIFY.local.md
+.vite/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
