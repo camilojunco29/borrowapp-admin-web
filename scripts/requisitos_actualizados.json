@@ -2,13 +2,13 @@
   "proyecto": "BorrowApp",
   "version": "2.1 - cierre de implementación",
   "fecha": "2026-11-19",
-  "equipo": "Equipo BorrowApp (sin número asignado)",
+  "equipo": "Equipo G",
   "integrantes": [
     "Jesús Vergara",
     "Camilo Junco",
     "Abraham Márquez"
   ],
-  "repositorio": "https://github.com/camilojunco29/borrowapp-admin-web",
+  "repositorio": "https://github.com/ABRAHAMMFTS/BORROWAPP.git",
   "base_documental": "BorrowApp_SRS_v2.pdf, versión 2.0 del 04/10/2026; se conservan sus capítulos base y se reemplazan las matrices y el cierre.",
   "resumen": {
     "Cumplido": 20,
@@ -232,5 +232,13 @@
       "estado": "Parcial",
       "evidencia": "Índice único parcial probado en PostgreSQL local y transiciones secuenciales probadas en API. Falta validar carreras concurrentes y endurecer cambios de estado bajo concurrencia."
     }
-  ]
+  ],
+  "repositorio_panel": "https://github.com/camilojunco29/borrowapp-admin-web",
+  "enlaces": {
+    "repositorio_proyecto": "https://github.com/ABRAHAMMFTS/BORROWAPP.git",
+    "panel_administrador": "https://borrowappadmin.netlify.app/",
+    "documentacion_api_swagger": "https://borrowapp.onrender.com/docs",
+    "descarga_apk_android": "https://n9.cl/borrowapp_android",
+    "repositorio_panel_y_anexos": "https://github.com/camilojunco29/borrowapp-admin-web"
+  }
 }
