@@ -1,0 +1,32 @@
+{
+  "fecha": "2026-11-19",
+  "entorno": "PostgreSQL embebido PGlite (WASM), memoria local, sin conexión remota",
+  "ejecucion_scripts": "correcta",
+  "conteos": {
+    "usuarios": 3,
+    "organizaciones": 2,
+    "membresias": 5,
+    "necesidades": 2,
+    "ofertas": 2,
+    "prestamos": 1,
+    "reportes": 1
+  },
+  "restricciones": [
+    {
+      "prueba": "Unicidad de membresía",
+      "resultado": "aprobada",
+      "sqlstate": "23505"
+    },
+    {
+      "prueba": "Una oferta aceptada por necesidad",
+      "resultado": "aprobada",
+      "sqlstate": "23505"
+    },
+    {
+      "prueba": "Integridad referencial",
+      "resultado": "aprobada",
+      "sqlstate": "23503"
+    }
+  ],
+  "limite": "No sustituye una ejecución de despliegue en el servidor PostgreSQL de producción."
+}

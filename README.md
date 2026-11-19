@@ -73,3 +73,15 @@ se han hecho en este proyecto React.
 El CSV se destina a lectura en hojas de cálculo. Los textos que podrían
 interpretarse como fórmulas llevan un tabulador dentro de la celda entre
 comillas; ese carácter también estará presente si se importa el CSV como datos.
+
+## Anexos de entrega - 19/11/2026
+
+- `database/`: creación del esquema PostgreSQL, relaciones, datos ficticios,
+  consultas de verificación y diccionario físico derivado del ORM existente.
+- `scripts/`: instrucciones de instalación, dependencias de referencia de la API,
+  validadores locales, matriz de requisitos y resultados de pruebas.
+
+Los scripts SQL se probaron en PostgreSQL embebido; la API se comprobó de forma
+local sin modificar datos remotos ni el backend original. La matriz de cierre
+registra como parcial el cálculo horario del backend cuando hay fracciones
+de día, además de los pendientes de autorización y medición documentados.

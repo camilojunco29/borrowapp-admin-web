@@ -1,0 +1,134 @@
+{
+  "fecha": "2026-11-19",
+  "entorno": "TestClient local + SQLite aislado; sin peticiones a producción",
+  "pruebas": [
+    {
+      "prueba": "Registro e inicio de sesión local: Admin Prueba",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Registro e inicio de sesión local: Solicitante Prueba",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Registro e inicio de sesión local: Prestador Prueba",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Registro e inicio de sesión local: Externo Prueba",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Perfil sin token rechazado",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Código único de cinco caracteres y creador administrador",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Unión mediante código local",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Unión mediante código local",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Aislamiento entre organizaciones para no miembros",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Publicación con estado inicial correcto",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Ofertas gratuitas y alquiler por día",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Solo solicitante acepta ofertas",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Aceptación crea préstamo y cierra ofertas alternativas",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "No se puede confirmar recepción antes de entrega",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Solo el prestador marca entrega",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Primera confirmación de entrega",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Segunda confirmación activa préstamo",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Reporte en curso pendiente",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Resolver reporte exige administrador",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Resolución de reporte aplica sanción",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Sancionado no publica nuevas necesidades",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Sanción no impide devolver un préstamo previo",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Doble confirmación de devolución finaliza préstamo",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Reversión restaura membresía",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Modificar punto central conserva acuerdo anterior",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Cancelar necesidad cierra ofertas pendientes",
+      "resultado": "aprobada"
+    },
+    {
+      "prueba": "Múltiples organizaciones con membresías independientes",
+      "resultado": "aprobada"
+    }
+  ],
+  "total_aprobadas": 27,
+  "hallazgos": [
+    {
+      "id": "H-01",
+      "detalle": "Listado de reportes admite miembro no administrador",
+      "codigo_observado": 200
+    },
+    {
+      "id": "H-02",
+      "detalle": "Tarifa por hora usa días enteros multiplicados por 24",
+      "horas_solicitadas": 36,
+      "total_esperado": 36000,
+      "total_observado": 24000.0
+    }
+  ],
+  "limites": [
+    "No es una prueba de carga ni de concurrencia.",
+    "No ejecuta la interfaz Flutter.",
+    "No valida los scripts directamente en un servidor PostgreSQL."
+  ]
+}

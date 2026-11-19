@@ -1,0 +1,86 @@
+
+> borrowapp-admin-web@1.1.0 test
+> node --test
+
+TAP version 13
+# Subtest: normaliza raíz y prefijo sin duplicar /api/v1
+ok 1 - normaliza raíz y prefijo sin duplicar /api/v1
+  ---
+  duration_ms: 0.6078
+  type: 'test'
+  ...
+# Subtest: todas las operaciones del panel coinciden con OpenAPI publicado
+ok 2 - todas las operaciones del panel coinciden con OpenAPI publicado
+  ---
+  duration_ms: 5.7787
+  type: 'test'
+  ...
+# Subtest: 401 de login conserva el formulario; 401 protegido expira la sesión
+ok 3 - 401 de login conserva el formulario; 401 protegido expira la sesión
+  ---
+  duration_ms: 0.792
+  type: 'test'
+  ...
+# Subtest: errores FastAPI y fallos de red producen texto renderizable
+ok 4 - errores FastAPI y fallos de red producen texto renderizable
+  ---
+  duration_ms: 0.1859
+  type: 'test'
+  ...
+# Subtest: rechaza API remota sin HTTPS y credenciales embebidas
+ok 5 - rechaza API remota sin HTTPS y credenciales embebidas
+  ---
+  duration_ms: 0.2264
+  type: 'test'
+  ...
+# Subtest: un token vencido no llega a enviarse a la API
+ok 6 - un token vencido no llega a enviarse a la API
+  ---
+  duration_ms: 0.5464
+  type: 'test'
+  ...
+# Subtest: un 401 tardío de la sesión anterior no cierra la nueva
+ok 7 - un 401 tardío de la sesión anterior no cierra la nueva
+  ---
+  duration_ms: 0.3649
+  type: 'test'
+  ...
+# Subtest: CSV neutraliza fórmulas, variantes Unicode y prefijos ocultos
+ok 8 - CSV neutraliza fórmulas, variantes Unicode y prefijos ocultos
+  ---
+  duration_ms: 0.7361
+  type: 'test'
+  ...
+# Subtest: la exportación neutraliza tanto cabeceras como datos de usuario
+ok 9 - la exportación neutraliza tanto cabeceras como datos de usuario
+  ---
+  duration_ms: 0.7545
+  type: 'test'
+  ...
+# Subtest: actualizar punto central actualiza la membresía usada al regresar
+ok 10 - actualizar punto central actualiza la membresía usada al regresar
+  ---
+  duration_ms: 0.1785
+  type: 'test'
+  ...
+# Subtest: la sesión es por pestaña y elimina las credenciales persistentes antiguas
+ok 11 - la sesión es por pestaña y elimina las credenciales persistentes antiguas
+  ---
+  duration_ms: 0.3359
+  type: 'test'
+  ...
+# Subtest: la lectura de vencimiento no supone que el token esté firmado correctamente
+ok 12 - la lectura de vencimiento no supone que el token esté firmado correctamente
+  ---
+  duration_ms: 0.2029
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 208.4843

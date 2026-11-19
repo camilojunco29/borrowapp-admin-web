@@ -1,0 +1,14 @@
+
+> borrowapp-admin-web@1.1.0 build
+> vite build
+
+vite v8.3.8 building client environment for production...
+transforming...
+✓ 1619 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.46 kB │ gzip:  0.31 kB
+dist/assets/index-Iqcw7oHS.css   16.98 kB │ gzip:  4.17 kB
+dist/assets/index-CdnMDheF.js   248.42 kB │ gzip: 78.81 kB
+
+✓ built in 592ms

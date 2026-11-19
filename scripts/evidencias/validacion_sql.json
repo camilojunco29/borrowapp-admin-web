@@ -1,0 +1,21 @@
+{
+  "fecha": "2026-11-19",
+  "resultados": [
+    {
+      "archivo": "01_creacion_tablas.sql",
+      "sentencias": 19,
+      "sintaxis_postgresql": "válida"
+    },
+    {
+      "archivo": "02_datos_prueba.sql",
+      "sentencias": 16,
+      "sintaxis_postgresql": "válida"
+    },
+    {
+      "archivo": "03_consultas_verificacion.sql",
+      "sentencias": 5,
+      "sintaxis_postgresql": "válida"
+    }
+  ],
+  "limite": "Análisis sintáctico con pglast; no ejecución en servidor PostgreSQL."
+}

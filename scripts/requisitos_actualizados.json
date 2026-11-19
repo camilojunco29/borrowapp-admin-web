@@ -1,0 +1,236 @@
+{
+  "proyecto": "BorrowApp",
+  "version": "2.1 - cierre de implementación",
+  "fecha": "2026-11-19",
+  "equipo": "Equipo BorrowApp (sin número asignado)",
+  "integrantes": [
+    "Jesús Vergara",
+    "Camilo Junco",
+    "Abraham Márquez"
+  ],
+  "repositorio": "https://github.com/camilojunco29/borrowapp-admin-web",
+  "base_documental": "BorrowApp_SRS_v2.pdf, versión 2.0 del 04/10/2026; se conservan sus capítulos base y se reemplazan las matrices y el cierre.",
+  "resumen": {
+    "Cumplido": 20,
+    "Parcial": 7,
+    "No alcanzado": 0
+  },
+  "requisitos": [
+    {
+      "id": "RF-001",
+      "nombre": "Registro de usuario",
+      "descripcion": "Registrarse con nombre completo, correo único y contraseña de mínimo 8 caracteres.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Registro con bcrypt y validación de nombre/correo. API local: cuatro registros y acceso posterior. El usuario confirmó registro remoto nuevo."
+    },
+    {
+      "id": "RF-002",
+      "nombre": "Inicio de sesión",
+      "descripcion": "Autenticar con correo y contraseña; mantener sesión con token.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Acceso confirmado por el usuario y en API local. Panel: sesión por pestaña, vencimiento y manejo de 401 comprobados por pruebas."
+    },
+    {
+      "id": "RF-003",
+      "nombre": "Creación de organización",
+      "descripcion": "Crear una organización con nombre, tipo (universidad, empresa o conjunto residencial), punto central y el identificador interno del creador. El sistema genera un código de 5 caracteres alfanuméricos en mayúsculas, único en todo el sistema, y asigna al creador como administrador mediante una membresía.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "API local crea organización, código de cinco caracteres y membresía ADMINISTRADOR. Formulario y servicio presentes en Flutter."
+    },
+    {
+      "id": "RF-004",
+      "nombre": "Unión a organización mediante código",
+      "descripcion": "Ingresar el código de 5 caracteres para unirse, indicando el identificador interno (código estudiantil, de empleado o número de apartamento según el tipo). Si el código no existe, rechazar e indicarlo. Un usuario puede tener membresías en varias organizaciones.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Búsqueda por código y unión de dos miembros verificadas localmente; identificador interno y varias membresías implementados."
+    },
+    {
+      "id": "RF-005",
+      "nombre": "Restricción por organización",
+      "descripcion": "Consulta de necesidades, creación de ofertas y participación en préstamos solo entre usuarios con membresía activa en la misma organización, es decir, la organización activa.",
+      "prioridad": "Alta",
+      "estado": "Parcial",
+      "evidencia": "El aislamiento entre organizaciones se verifica localmente. Sin embargo, exigir_miembro permite lecturas a membresías suspendidas/baneadas; falta ajustar la condición de membresía activa del requisito."
+    },
+    {
+      "id": "RF-006",
+      "nombre": "Publicación de necesidad",
+      "descripcion": "Publicar una necesidad en la organización activa con objeto, descripción, fecha de inicio y de fin. Se crea en `BUSCANDO_PRESTADOR`.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Creación local con objeto, descripción, fechas y BUSCANDO_PRESTADOR. Pantalla publicar_necesidad_screen.dart y endpoint por organización."
+    },
+    {
+      "id": "RF-007",
+      "nombre": "Consulta de necesidades",
+      "descripcion": "Listar las necesidades de la organización activa con objeto, fechas y estado.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Listados por organización implementados en Flutter y React. Se rechaza al usuario externo en la prueba local de la API."
+    },
+    {
+      "id": "RF-008",
+      "nombre": "Creación de oferta",
+      "descripcion": "Cualquier miembro distinto del solicitante puede responder con \"Tengo este objeto\", definiendo él mismo: modalidad (gratuito o alquiler); si es alquiler, precio y unidad (hora o día); y fecha y hora de entrega. La oferta nace `PENDIENTE`.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Ofertas gratis y alquiler con precio/unidad/fecha verificadas localmente. Restricción de actor y condiciones presentes en ofertas.py."
+    },
+    {
+      "id": "RF-009",
+      "nombre": "Cálculo del precio",
+      "descripcion": "En alquiler: total = precio × duración (horas o días). En gratuito: total = $0.",
+      "prioridad": "Media",
+      "estado": "Parcial",
+      "evidencia": "Gratis y alquiler por días completos funcionan. En 36 horas a 1.000 por hora se obtienen 24.000 en lugar de 36.000: el backend trunca días y multiplica por 24. Falta usar duración horaria real."
+    },
+    {
+      "id": "RF-010",
+      "nombre": "Aceptación o rechazo de ofertas",
+      "descripcion": "El solicitante consulta las ofertas y acepta o rechaza cada una. Al aceptar, las demás ofertas pendientes pasan a `CERRADA`. Rechazar no cierra la necesidad ni las demás ofertas.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Aceptación autorizada crea un único acuerdo y cierra alternativas; actor no autorizado rechazado. Rechazo individual implementado en API y Flutter."
+    },
+    {
+      "id": "RF-011",
+      "nombre": "Creación del préstamo",
+      "descripcion": "Al aceptar una oferta se crea un préstamo `CONFIRMADO` con objeto, prestador, solicitante, fechas, modalidad, precio y punto central.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Se verificó préstamo CONFIRMADO al aceptar una oferta, con copia de precio, objeto, fechas y punto central."
+    },
+    {
+      "id": "RF-012",
+      "nombre": "Confirmación de entrega y recepción",
+      "descripcion": "El prestador marca \"Entregado\" y el solicitante confirma \"Recibido\". Pasa a `ACTIVO` solo con ambas.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "API local impide recibir antes de entregar y rechaza actor incorrecto. Entrega + recepción llevan a ACTIVO."
+    },
+    {
+      "id": "RF-013",
+      "nombre": "Confirmación de devolución",
+      "descripcion": "El solicitante marca \"Devuelto\" y el prestador confirma. Pasa a `FINALIZADO` solo con ambas.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Prueba local de devolución y confirmación del prestador: FINALIZADO. La necesidad asociada se cierra en la misma operación de la API."
+    },
+    {
+      "id": "RF-014",
+      "nombre": "Reporte de problemas",
+      "descripcion": "Cualquiera de las dos partes reporta (objeto no devuelto, dañado o inasistencia). El reporte llega al panel del administrador de la organización del préstamo.",
+      "prioridad": "Media",
+      "estado": "Cumplido",
+      "evidencia": "Creación local de reporte PENDIENTE en préstamo activo y marca de conflicto. Pantalla reportar_problema_screen.dart disponible en Flutter."
+    },
+    {
+      "id": "RF-015",
+      "nombre": "Historial",
+      "descripcion": "Mostrar historial de necesidades, ofertas y préstamos, diferenciando el papel (Solicitante o Prestador), con estadísticas básicas.",
+      "prioridad": "Media",
+      "estado": "Cumplido",
+      "evidencia": "HistorialScreen implementa necesidades, ofertas, préstamos y cuatro estadísticas por papel y organización. Evidencia por lectura de código; no se ejecutó Flutter en esta revisión."
+    },
+    {
+      "id": "RF-016",
+      "nombre": "Panel de administración",
+      "descripcion": "El administrador consulta miembros, publicaciones y préstamos de su organización, atiende reportes y modifica el punto central.",
+      "prioridad": "Media",
+      "estado": "Parcial",
+      "evidencia": "Panel React implementado, compila y sus contratos están probados. Falta restringir en servidor el listado de reportes a administradores: un miembro obtuvo 200 en la prueba local."
+    },
+    {
+      "id": "RF-017",
+      "nombre": "Aplicación de sanciones",
+      "descripcion": "Al revisar un reporte, el administrador aplica advertencia, suspensión temporal (con fecha de fin) o baneo permanente. Se actualiza el estado de la membresía (`ADVERTIDO`, `SUSPENDIDO`, `BANEADO`), el reporte pasa a `RESUELTO` y se guarda administrador, fecha y nota de resolución. Puede revertir la sanción devolviendo la membresía a `ACTIVO`.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "API local exige administrador al resolver, aplica suspensión y revierte la membresía a ACTIVO. Panel incluye nota y fecha para suspensión."
+    },
+    {
+      "id": "RF-018",
+      "nombre": "Restricciones a usuarios sancionados",
+      "descripcion": "Un usuario `SUSPENDIDO` o `BANEADO` en una organización no puede publicar necesidades, crear ofertas ni aceptar ofertas en ella, y ve un mensaje con el motivo. No afecta sus otras organizaciones. Sus préstamos en curso continúan normalmente. Al vencer una suspensión, vuelve a `ACTIVO` automáticamente.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Prueba local: sancionado no publica; puede devolver un préstamo previo. Los bloqueos de oferta/aceptación y restitución por vencimiento están en las dependencias de la API."
+    },
+    {
+      "id": "RF-019",
+      "nombre": "Cambio de organización activa",
+      "descripcion": "Elegir cuál organización es la activa. Todas las pantallas reflejan solo esa organización. No altera rol, estado ni identificador de ninguna membresía.",
+      "prioridad": "Media",
+      "estado": "Cumplido",
+      "evidencia": "Dos organizaciones con membresías independientes verificadas localmente. React descarta respuestas anteriores y conserva la organización actualizada en caché; prueba automatizada."
+    },
+    {
+      "id": "RF-020",
+      "nombre": "Cancelación de necesidad",
+      "descripcion": "El solicitante puede cancelar una necesidad en `BUSCANDO_PRESTADOR` sin oferta aceptada. Pasa a `CERRADA` y sus ofertas pendientes pasan a `CERRADA`. Con préstamo confirmado no se puede cancelar.",
+      "prioridad": "Media",
+      "estado": "Cumplido",
+      "evidencia": "Cancelación local de una necesidad sin aceptar oferta: necesidad CERRADA y oferta pendiente cerrada. La API rechaza cancelar con préstamo confirmado."
+    },
+    {
+      "id": "RNF-001",
+      "nombre": "Rendimiento",
+      "descripcion": "Registrar una necesidad, oferta o confirmación en menos de 5 segundos con conexión móvil estándar.",
+      "prioridad": "Alta",
+      "estado": "Parcial",
+      "evidencia": "El flujo está implementado, pero no hay medición en conexión móvil estándar que demuestre menos de cinco segundos. El cliente contempla hasta 70 segundos para arranque en frío."
+    },
+    {
+      "id": "RNF-002",
+      "nombre": "Seguridad",
+      "descripcion": "Contraseñas con hash (bcrypt o equivalente); toda comunicación por HTTPS.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Hash bcrypt en backend; API de ejecución configurada con HTTPS y panel rechaza HTTP remoto. Los pendientes de autorización y cookies se registran aparte, sin declararlos corregidos."
+    },
+    {
+      "id": "RNF-003",
+      "nombre": "Disponibilidad",
+      "descripcion": "Debe responder correctamente con varios usuarios operando en simultáneo.",
+      "prioridad": "Media",
+      "estado": "Parcial",
+      "evidencia": "Flujos locales correctos, pero no se ejecutaron ensayos multiusuario simultáneos ni monitoreo de disponibilidad. Falta prueba de carga y evidencia del despliegue."
+    },
+    {
+      "id": "RNF-004",
+      "nombre": "Usabilidad",
+      "descripcion": "Un usuario nuevo publica su primera necesidad u oferta en menos de 3 minutos sin ayuda.",
+      "prioridad": "Alta",
+      "estado": "Parcial",
+      "evidencia": "Las pantallas existen; no se hizo un estudio cronometrado con usuarios nuevos que pruebe la primera necesidad/oferta en menos de tres minutos."
+    },
+    {
+      "id": "RNF-005",
+      "nombre": "Escalabilidad",
+      "descripcion": "Agregar organizaciones, y que un usuario se una a varias, sin cambiar el modelo de datos ni la lógica existente.",
+      "prioridad": "Baja",
+      "estado": "Cumplido",
+      "evidencia": "Modelo de membresías independiente de la cuenta. Se creó una segunda organización sin cambiar esquema ni lógica, verificado con API local."
+    },
+    {
+      "id": "RNF-006",
+      "nombre": "Mantenibilidad",
+      "descripcion": "Backend organizado para facilitar mantenimiento y extensión.",
+      "prioridad": "Alta",
+      "estado": "Cumplido",
+      "evidencia": "Backend separado en rutas, dependencias, modelos, esquemas y seguridad. React separado en API, sesión, componentes y utilidades, con pruebas automatizadas."
+    },
+    {
+      "id": "RNF-007",
+      "nombre": "Consistencia",
+      "descripcion": "Transiciones de estado atómicas: nunca dos ofertas `ACEPTADA` en la misma necesidad ni un préstamo que avance sin sus confirmaciones completas.",
+      "prioridad": "Alta",
+      "estado": "Parcial",
+      "evidencia": "Índice único parcial probado en PostgreSQL local y transiciones secuenciales probadas en API. Falta validar carreras concurrentes y endurecer cambios de estado bajo concurrencia."
+    }
+  ]
+}
